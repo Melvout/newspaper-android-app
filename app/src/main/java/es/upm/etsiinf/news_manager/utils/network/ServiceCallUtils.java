@@ -1,4 +1,4 @@
-package es.upm.etsiinf.pmd.pmdproject.utils.network;
+package es.upm.etsiinf.news_manager.utils.network;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -15,8 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import es.upm.etsiinf.pmd.pmdproject.utils.network.exceptions.AuthenticationError;
-import es.upm.etsiinf.pmd.pmdproject.utils.network.exceptions.ServerCommunicationError;
+import es.upm.etsiinf.news_manager.utils.network.exceptions.AuthenticationError;
+import es.upm.etsiinf.news_manager.utils.network.exceptions.ServerCommunicationError;
 
 public class ServiceCallUtils {
 

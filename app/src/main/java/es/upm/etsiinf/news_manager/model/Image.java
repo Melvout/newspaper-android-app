@@ -1,12 +1,11 @@
-package es.upm.etsiinf.pmd.pmdproject.model;
-
+package es.upm.etsiinf.news_manager.model;
 
 import org.json.simple.JSONObject;
 
 import java.util.Hashtable;
 
-import es.upm.etsiinf.pmd.pmdproject.utils.Logger;
-import es.upm.etsiinf.pmd.pmdproject.utils.SerializationUtils;
+import es.upm.etsiinf.news_manager.utils.Logger;
+import es.upm.etsiinf.news_manager.utils.SerializationUtils;
 
 
 public class Image extends ModelEntity {

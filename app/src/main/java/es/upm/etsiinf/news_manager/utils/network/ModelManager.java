@@ -1,4 +1,4 @@
-package es.upm.etsiinf.pmd.pmdproject.utils.network;
+package es.upm.etsiinf.news_manager.utils.network;
 
 
 import java.io.IOException;
@@ -10,13 +10,13 @@ import java.util.List;
 import java.util.Properties;
 import org.json.simple.JSONObject;
 
-import es.upm.etsiinf.pmd.pmdproject.model.Article;
-import es.upm.etsiinf.pmd.pmdproject.model.Image;
-import es.upm.etsiinf.pmd.pmdproject.utils.network.exceptions.AuthenticationError;
-import es.upm.etsiinf.pmd.pmdproject.utils.Logger;
-import es.upm.etsiinf.pmd.pmdproject.utils.network.exceptions.ServerCommunicationError;
+import es.upm.etsiinf.news_manager.model.Article;
+import es.upm.etsiinf.news_manager.model.Image;
+import es.upm.etsiinf.news_manager.utils.network.exceptions.AuthenticationError;
+import es.upm.etsiinf.news_manager.utils.Logger;
+import es.upm.etsiinf.news_manager.utils.network.exceptions.ServerCommunicationError;
 
-import static es.upm.etsiinf.pmd.pmdproject.utils.network.ServiceCallUtils.parseHttpStreamResult;
+import static es.upm.etsiinf.news_manager.utils.network.ServiceCallUtils.parseHttpStreamResult;
 
 public class ModelManager {
     private static RESTConnection rc = null;

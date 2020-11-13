@@ -1,4 +1,4 @@
-package es.upm.etsiinf.pmd.pmdproject.utils.network.exceptions;
+package es.upm.etsiinf.news_manager.utils.network.exceptions;
 
 
 public class AuthenticationError extends Exception {

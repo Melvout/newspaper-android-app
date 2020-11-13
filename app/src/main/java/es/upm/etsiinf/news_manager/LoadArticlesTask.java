@@ -1,4 +1,4 @@
-package es.upm.etsiinf.pmd.pmdproject;
+package es.upm.etsiinf.news_manager;
 
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -7,11 +7,12 @@ import android.util.Log;
 import java.util.List;
 import java.util.Properties;
 
-import es.upm.etsiinf.pmd.pmdproject1920.model.Article;
-import es.upm.etsiinf.pmd.pmdproject1920.utils.network.ModelManager;
-import es.upm.etsiinf.pmd.pmdproject1920.utils.network.RESTConnection;
-import es.upm.etsiinf.pmd.pmdproject1920.utils.network.exceptions.AuthenticationError;
-import es.upm.etsiinf.pmd.pmdproject1920.utils.network.exceptions.ServerCommunicationError;
+import es.upm.etsiinf.news_manager.model.Article;
+import es.upm.etsiinf.news_manager.utils.network.ModelManager;
+import es.upm.etsiinf.news_manager.utils.network.RESTConnection;
+import es.upm.etsiinf.news_manager.utils.network.exceptions.AuthenticationError;
+import es.upm.etsiinf.news_manager.utils.network.exceptions.ServerCommunicationError;
+
 public class LoadArticlesTask extends AsyncTask<Void, Void, List<Article>> {
     
 	private static final String TAG = "LoadArticlesTask";
@@ -22,7 +23,7 @@ public class LoadArticlesTask extends AsyncTask<Void, Void, List<Article>> {
 		//ModelManager uses singleton pattern, connecting once per app execution in enough
         if (!ModelManager.isConnected()){
 			// if it is the first login
-            if (strIdUser==null || strIdUser.equals("")) {
+            if (ModelManager.getIdUser()==null || ModelManager.getIdUser().equals("")) {
                 try {
                     ModelManager.login("ws_user", "ws_password");
                 } catch (AuthenticationError e) {
@@ -31,7 +32,7 @@ public class LoadArticlesTask extends AsyncTask<Void, Void, List<Article>> {
             }
 			// if we have saved user credentials from previous connections
 			else{
-                ModelManager.stayloggedin(strIdUser,strApiKey,strIdAuthUser);
+                ModelManager.stayloggedin(ModelManager.getIdUser(),ModelManager.getLoggedApiKey(),ModelManager.getLoggedIdUSer());
             }
         }
 		//If connection has been successful
@@ -41,7 +42,7 @@ public class LoadArticlesTask extends AsyncTask<Void, Void, List<Article>> {
                 res = ModelManager.getArticles(6, 0);
                 for (Article article : res) {
 					// We print articles in Log
-                    Log.i(TAG, article);
+                    Log.i(TAG, article.toString());
                 }
             } catch (ServerCommunicationError e) {
                 Log.e(TAG,e.getMessage());

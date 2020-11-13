@@ -1,5 +1,4 @@
-package es.upm.etsiinf.pmd.pmdproject.utils;
-
+package es.upm.etsiinf.news_manager.utils;
 
 import android.util.Log;
 

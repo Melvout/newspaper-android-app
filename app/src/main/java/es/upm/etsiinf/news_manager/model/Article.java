@@ -1,4 +1,4 @@
-package es.upm.etsiinf.pmd.pmdproject.model;
+package es.upm.etsiinf.news_manager.model;
 
 
 import android.os.Build;
@@ -10,9 +10,9 @@ import java.util.Hashtable;
 
 import org.json.simple.JSONObject;
 
-import es.upm.etsiinf.pmd.pmdproject.utils.Logger;
-import es.upm.etsiinf.pmd.pmdproject.utils.SerializationUtils;
-import es.upm.etsiinf.pmd.pmdproject.utils.network.exceptions.ServerCommunicationError;
+import es.upm.etsiinf.news_manager.utils.Logger;
+import es.upm.etsiinf.news_manager.utils.SerializationUtils;
+import es.upm.etsiinf.news_manager.utils.network.exceptions.ServerCommunicationError;
 
 
 public class Article extends ModelEntity {

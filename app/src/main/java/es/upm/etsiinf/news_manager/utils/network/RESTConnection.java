@@ -1,4 +1,4 @@
-package es.upm.etsiinf.pmd.pmdproject.utils.network;
+package es.upm.etsiinf.news_manager.utils.network;
 
 import java.net.Authenticator;
 import java.net.PasswordAuthentication;

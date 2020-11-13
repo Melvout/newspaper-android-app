@@ -1,4 +1,4 @@
-package es.upm.etsiinf.pmd.pmdproject.model;
+package es.upm.etsiinf.news_manager.model;
 
 import java.util.Enumeration;
 import java.util.Hashtable;
