@@ -55,7 +55,8 @@ public class Article extends ModelEntity {
 		
 			if (imageData!=null && !imageData.isEmpty())
 				mainImage = new Image(1, imageDescription, id, imageData);
-		}catch(Exception e){
+		}
+		catch(Exception e){
 			Logger.log(Logger.ERROR, "ERROR: Error parsing Article: from json"+jsonArticle+"\n"+e.getMessage());
 			throw new IllegalArgumentException("ERROR: Error parsing Article: from json"+jsonArticle);
 		}

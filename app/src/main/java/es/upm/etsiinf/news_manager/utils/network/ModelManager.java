@@ -1,6 +1,5 @@
 package es.upm.etsiinf.news_manager.utils.network;
 
-
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -18,7 +17,8 @@ import es.upm.etsiinf.news_manager.utils.network.exceptions.ServerCommunicationE
 
 import static es.upm.etsiinf.news_manager.utils.network.ServiceCallUtils.parseHttpStreamResult;
 
-public class ModelManager {
+public class ModelManager
+{
     private static RESTConnection rc = null;
 
     public static boolean isConnected(){
@@ -59,7 +59,8 @@ public class ModelManager {
          * @throws AuthenticationError
          */
     @SuppressWarnings("unchecked")
-    public static void login(String username, String password) throws AuthenticationError{
+    public static void login(String username, String password) throws AuthenticationError
+    {
         String res = "";
         try{
             String parameters =  "";
