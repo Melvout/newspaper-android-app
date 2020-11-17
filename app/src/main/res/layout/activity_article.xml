@@ -7,17 +7,20 @@
     android:layout_height="match_parent">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton"
+        android:id="@+id/btn_add_img"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
+        android:contentDescription="@string/replace_image"
+        android:focusable="true"
+        app:backgroundTint="@color/teal_200"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.954"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.97"
-        app:srcCompat="@drawable/ic_launcher_foreground" />
+        app:srcCompat="@drawable/abc_vector_test" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -31,7 +34,9 @@
             android:id="@+id/img_article"
             android:layout_width="match_parent"
             android:layout_height="240dp"
-            tools:srcCompat="@color/purple_200" />
+            android:layout_marginBottom="24dp"
+            android:contentDescription="@string/article_image"
+            android:src="@color/purple_200" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -41,34 +46,60 @@
             android:paddingEnd="16dp">
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/article_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Title" />
+                android:paddingBottom="8dp"
+                android:text="@string/article_title"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/article_subtitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Subtitle" />
+                android:lineSpacingExtra="22sp"
+                android:paddingBottom="12dp"
+                android:text="@string/article_subtitle"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/article_abstract"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Abstract" />
+                android:alpha="0.65"
+                android:lineSpacingExtra="20sp"
+                android:paddingBottom="24dp"
+                android:text="@string/article_abstract"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/textView6"
+                android:id="@+id/article_body"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="body" />
+                android:alpha="0.8"
+                android:lineSpacingExtra="24sp"
+                android:paddingBottom="24dp"
+                android:text="@string/article_body"
+                android:textAlignment="viewStart"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/textView5"
+                android:id="@+id/article_category"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Category" />
+                android:layout_marginBottom="32dp"
+                android:background="#E4CFFE"
+                android:padding="4dp"
+                android:text="@string/category"
+                android:textAllCaps="true"
+                android:textColor="@color/purple_500"
+                android:textSize="10sp"
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -76,16 +107,17 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textView7"
+                    android:id="@+id/article_user_id"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="User ID" />
+                    android:text="@string/user_id" />
 
                 <TextView
-                    android:id="@+id/textView8"
+                    android:id="@+id/article_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Date" />
+                    android:text="@string/date" />
+
             </LinearLayout>
         </LinearLayout>
 

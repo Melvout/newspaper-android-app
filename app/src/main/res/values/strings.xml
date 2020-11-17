@@ -4,4 +4,13 @@
     <string name="enter_your_username">Enter your username</string>
     <string name="enter_your_password">Enter your password</string>
     <string name="log_in">Log in</string>
+    <string name="article_title">Title</string>
+    <string name="article_subtitle">Subtitle</string>
+    <string name="article_abstract">Abstract</string>
+    <string name="article_body">Body</string>
+    <string name="category">Category</string>
+    <string name="user_id">User ID</string>
+    <string name="date">Date</string>
+    <string name="replace_image">Replace image</string>
+    <string name="article_image">Article Image</string>
 </resources>
