@@ -12,5 +12,7 @@ public class ArticleActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
+
+
     }
 }
