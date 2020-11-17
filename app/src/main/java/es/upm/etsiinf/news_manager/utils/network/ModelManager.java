@@ -17,8 +17,7 @@ import es.upm.etsiinf.news_manager.utils.network.exceptions.ServerCommunicationE
 
 import static es.upm.etsiinf.news_manager.utils.network.ServiceCallUtils.parseHttpStreamResult;
 
-public class ModelManager
-{
+public class ModelManager {
     private static RESTConnection rc = null;
 
     public static boolean isConnected(){
@@ -52,15 +51,14 @@ public class ModelManager
         rc.apikey = apikey;
     }
 
-        /**
-         * Login onto remote service
-         * @param username
-         * @param password
-         * @throws AuthenticationError
-         */
+    /**
+     * Login onto remote service
+     * @param username
+     * @param password
+     * @throws AuthenticationError
+     */
     @SuppressWarnings("unchecked")
-    public static void login(String username, String password) throws AuthenticationError
-    {
+    public static void login(String username, String password) throws AuthenticationError{
         String res = "";
         try{
             String parameters =  "";
