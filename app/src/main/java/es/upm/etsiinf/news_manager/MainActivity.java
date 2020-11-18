@@ -22,50 +22,62 @@ public class MainActivity extends AppCompatActivity
 
     private String authtype;
     private String apikey;
+    private String idUSer;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         initProperties();
+        login("us_1_3", "1331");
+
         downloadArticles();
     }
 
-    private void downloadArticles()
-    {
-        new Thread( () ->
-        {
-            try
-            {
+    private void downloadArticles(){
+        new Thread( () ->{
+            try{
                 this.articleList = ModelManager.getArticles();
                 Log.e("Articles","Articles retrieved");
-                Log.e("Articles",">>>" + this.articleList.size());
+                this.articleList.forEach( article ->{
+                    try{
+                        if( article.getImage() != null){
+                            Log.e("Image",">>>" + article.getImage());
+                        }
+                        else{
+                            Log.e("Image","NO IMAGE");
+                        }
+                    }
+                    catch (ServerCommunicationError serverCommunicationError){
+                        serverCommunicationError.printStackTrace();
+                    }
+                });
             }
-            catch (ServerCommunicationError e)
-            {
+            catch (ServerCommunicationError e){
                 e.printStackTrace();
             }
         }).start();
     }
 
-    private void login()
-    {
-        try
-        {
-            ModelManager.login("us_1_3","1331");
-        }
-        catch (AuthenticationError e)
-        {
-            e.printStackTrace();
-        }
-        this.authtype = ModelManager.getLoggedAuthType();
-        this.apikey = ModelManager.getLoggedApiKey();
+    private void login(String username, String password){
+        new Thread ( () ->{
+            try {
+                ModelManager.login(username, password);
+            }
+            catch (AuthenticationError e){
+                e.printStackTrace();
+            }
+            this.authtype = ModelManager.getLoggedAuthType();
+            this.apikey = ModelManager.getLoggedApiKey();
+            this.idUSer = ModelManager.getLoggedIdUSer();
+
+            ModelManager.stayloggedin(this.idUSer,this.apikey,this.authtype);
+        }).start();
+
     }
 
-    private void initProperties()
-    {
+    private void initProperties(){
         Properties RESTProperties = new Properties();
         RESTProperties.setProperty(RESTConnection.ATTR_SERVICE_URL, "https://sanger.dia.fi.upm.es/pmd-task/");
         RESTProperties.setProperty(RESTConnection.ATTR_REQUIRE_SELF_CERT, "TRUE");

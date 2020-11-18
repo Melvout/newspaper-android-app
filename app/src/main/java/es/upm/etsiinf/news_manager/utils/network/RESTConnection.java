@@ -4,7 +4,7 @@ import java.net.Authenticator;
 import java.net.PasswordAuthentication;
 import java.util.Properties;
 
-public class RESTConnection {
+public class RESTConnection{
     private Properties ini  = null;
     protected String idUser = null;
     protected String authType;
