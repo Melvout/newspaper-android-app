@@ -170,4 +170,5 @@ public class Article extends ModelEntity {
 		//res.put("publication_date", publicationDate==null?null:Utils.dateToString(publicationDate));
 		return res;
 	}
+	
 }

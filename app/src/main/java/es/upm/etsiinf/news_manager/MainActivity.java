@@ -27,7 +27,8 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_article);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         initProperties();
         login("us_1_3", "1331");
