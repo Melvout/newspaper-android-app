@@ -2,10 +2,15 @@ package es.upm.etsiinf.news_manager;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -23,37 +28,41 @@ public class MainActivity extends AppCompatActivity
     private String authtype;
     private String apikey;
     private String idUSer;
+    private List<String> dataList = new ArrayList<>();
+    private String[] data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
+
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_article);
+        setContentView(R.layout.activity_main);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         initProperties();
         login("us_1_3", "1331");
-
         downloadArticles();
+
+        /* It will be used to navigate to the ArticleActivity - it's just a test */
+        Button btn_nextActivity = findViewById(R.id.btn_testButton);
+        btn_nextActivity.setOnClickListener(v ->
+        {
+            viewArticle(0);
+        });
     }
 
+    private void viewArticle(int articleId){
+
+        Intent i_nextActivity = new Intent(getApplicationContext(), ArticleActivity.class);
+        i_nextActivity.putExtra("idArticle", 113); // 113 should be replaced later by : this.articleList.get(articleId).getId()
+        MainActivity.this.startActivity(i_nextActivity);
+    }
+
+    /* Function to retrieve articles from the API */
     private void downloadArticles(){
         new Thread( () ->{
             try{
                 this.articleList = ModelManager.getArticles();
                 Log.e("Articles","Articles retrieved");
-                this.articleList.forEach( article ->{
-                    try{
-                        if( article.getImage() != null){
-                            Log.e("Image",">>>" + article.getImage());
-                        }
-                        else{
-                            Log.e("Image","NO IMAGE");
-                        }
-                    }
-                    catch (ServerCommunicationError serverCommunicationError){
-                        serverCommunicationError.printStackTrace();
-                    }
-                });
             }
             catch (ServerCommunicationError e){
                 e.printStackTrace();
@@ -61,6 +70,7 @@ public class MainActivity extends AppCompatActivity
         }).start();
     }
 
+    /* Function to login */
     private void login(String username, String password){
         new Thread ( () ->{
             try {
@@ -78,6 +88,7 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    /* Function to init properties of the REST app */
     private void initProperties(){
         Properties RESTProperties = new Properties();
         RESTProperties.setProperty(RESTConnection.ATTR_SERVICE_URL, "https://sanger.dia.fi.upm.es/pmd-task/");
