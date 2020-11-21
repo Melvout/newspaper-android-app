@@ -16,10 +16,10 @@
         app:backgroundTint="@color/teal_200"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.954"
+        app:layout_constraintHorizontal_bias="0.92"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.97"
+        app:layout_constraintVertical_bias="0.96"
         app:srcCompat="@drawable/abc_vector_test" />
 
     <LinearLayout
@@ -39,6 +39,7 @@
             android:src="@color/purple_200" />
 
         <LinearLayout
+            style="@style/Base.TextAppearance.AppCompat.ArticleTitle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
