@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity
 
     /* Function to retrieve articles from the API */
     private void downloadArticles() {
-        new Thread( () ->{
+        new Thread( () -> {
             try{
                 this.articleList = ModelManager.getArticles();
                 Log.e("Articles","Articles retrieved");

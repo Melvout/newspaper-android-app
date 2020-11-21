@@ -45,18 +45,20 @@ public class ArticleAdapter extends BaseAdapter {
     public View getView(int i, View convertView, ViewGroup viewGroup) {
 
         LayoutInflater layoutInflater = LayoutInflater.from(context);
-        View view = layoutInflater.inflate(R.layout.card_article, null);
 
-        TextView tvCardTitle = view.findViewById(R.id.card_title);
+        if (convertView == null)
+            convertView = layoutInflater.inflate(R.layout.card_article, null);
+
+        TextView tvCardTitle = convertView.findViewById(R.id.card_title);
         tvCardTitle.setText(articleData.get(i).getTitleText());
 
-        TextView tvCardAbstract = view.findViewById(R.id.card_abstract);
+        TextView tvCardAbstract = convertView.findViewById(R.id.card_abstract);
         tvCardAbstract.setText(articleData.get(i).getAbstractText());
 
-        TextView tvCardCategory = view.findViewById(R.id.card_category);
+        TextView tvCardCategory = convertView.findViewById(R.id.card_category);
         tvCardCategory.setText(articleData.get(i).getCategory());
 
-        return view;
+        return convertView;
 
     }
 }

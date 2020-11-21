@@ -1,5 +1,7 @@
 package es.upm.etsiinf.news_manager.utils.network;
 
+import android.widget.ListView;
+
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -9,6 +11,8 @@ import java.util.List;
 import java.util.Properties;
 import org.json.simple.JSONObject;
 
+import es.upm.etsiinf.news_manager.ArticleAdapter;
+import es.upm.etsiinf.news_manager.R;
 import es.upm.etsiinf.news_manager.model.Article;
 import es.upm.etsiinf.news_manager.model.Image;
 import es.upm.etsiinf.news_manager.utils.network.exceptions.AuthenticationError;
