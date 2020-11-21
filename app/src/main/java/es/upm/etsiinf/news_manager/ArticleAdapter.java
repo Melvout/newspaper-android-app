@@ -18,7 +18,7 @@ public class ArticleAdapter extends BaseAdapter {
     private List<Article> articleData = new LinkedList<>();
     private Context context;
 
-    public ArticleAdapter(Context context) {
+    public ArticleAdapter(Context context, List<String> dataList) {
         this.context = context;
     }
 

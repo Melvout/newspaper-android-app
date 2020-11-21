@@ -48,6 +48,10 @@ public class MainActivity extends AppCompatActivity
         {
             viewArticle(0);
         });
+
+        ArticleAdapter articleAdapter = new ArticleAdapter(this, dataList);
+        ListView listView = (ListView) findViewById(R.id.lst_itemList);
+        listView.setAdapter(articleAdapter);
     }
 
     private void viewArticle(int articleId){
