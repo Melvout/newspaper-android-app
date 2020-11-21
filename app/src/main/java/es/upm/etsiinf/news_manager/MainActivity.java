@@ -2,6 +2,7 @@ package es.upm.etsiinf.news_manager;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,6 +32,8 @@ public class MainActivity extends AppCompatActivity
     private List<String> dataList = new ArrayList<>();
     private String[] data;
 
+    private Activity context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
 
@@ -49,12 +52,9 @@ public class MainActivity extends AppCompatActivity
             viewArticle(0);
         });
 
-        ArticleAdapter articleAdapter = new ArticleAdapter(this, dataList);
-        ListView listView = (ListView) findViewById(R.id.lst_itemList);
-        listView.setAdapter(articleAdapter);
     }
 
-    private void viewArticle(int articleId){
+    private void viewArticle(int articleId) {
 
         Intent i_nextActivity = new Intent(getApplicationContext(), ArticleActivity.class);
         i_nextActivity.putExtra("idArticle", 113); // 113 should be replaced later by : this.articleList.get(articleId).getId()
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     /* Function to retrieve articles from the API */
-    private void downloadArticles(){
+    private void downloadArticles() {
         new Thread( () ->{
             try{
                 this.articleList = ModelManager.getArticles();
@@ -71,11 +71,12 @@ public class MainActivity extends AppCompatActivity
             catch (ServerCommunicationError e){
                 e.printStackTrace();
             }
+
         }).start();
     }
 
     /* Function to login */
-    private void login(String username, String password){
+    private void login(String username, String password) {
         new Thread ( () ->{
             try {
                 ModelManager.login(username, password);
@@ -93,10 +94,11 @@ public class MainActivity extends AppCompatActivity
     }
 
     /* Function to init properties of the REST app */
-    private void initProperties(){
+    private void initProperties() {
         Properties RESTProperties = new Properties();
         RESTProperties.setProperty(RESTConnection.ATTR_SERVICE_URL, "https://sanger.dia.fi.upm.es/pmd-task/");
         RESTProperties.setProperty(RESTConnection.ATTR_REQUIRE_SELF_CERT, "TRUE");
         ModelManager.configureConnection(RESTProperties);
     }
+
 }
