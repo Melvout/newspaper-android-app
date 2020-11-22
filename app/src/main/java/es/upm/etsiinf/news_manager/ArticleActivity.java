@@ -9,11 +9,15 @@ import android.text.Html;
 import android.util.Base64;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import es.upm.etsiinf.news_manager.model.Article;
 import es.upm.etsiinf.news_manager.utils.network.ModelManager;
 import es.upm.etsiinf.news_manager.utils.network.exceptions.ServerCommunicationError;
@@ -32,6 +36,12 @@ public class ArticleActivity extends AppCompatActivity{
         Intent intent = getIntent();
         int idArticle = intent.getIntExtra("idArticle",0);
         getArticle(idArticle);
+
+
+        FloatingActionButton addImageButton = findViewById(R.id.btn_add_img);
+        if(!ModelManager.isConnected()){
+            addImageButton.setVisibility(FloatingActionButton.INVISIBLE);
+        }
     }
 
     /* Method to retrieve all the information related to a specific article from the API */

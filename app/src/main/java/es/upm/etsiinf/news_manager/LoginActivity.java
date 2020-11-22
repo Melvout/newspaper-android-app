@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import es.upm.etsiinf.news_manager.utils.network.ModelManager;
 import es.upm.etsiinf.news_manager.utils.network.exceptions.AuthenticationError;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -25,17 +25,13 @@ public class LoginActivity extends AppCompatActivity {
         EditText usernameInput = findViewById(R.id.textField_name);
         EditText passwordInput = findViewById(R.id.textField_password);
 
-        Button viewArticleButton = findViewById(R.id.btn_login);
-        viewArticleButton.setOnClickListener(v -> {
-            //TODO
-
+        /* Button to submit the login form */
+        Button loginButton = findViewById(R.id.btn_login);
+        loginButton.setOnClickListener(v -> {
             String username = usernameInput.getText().toString();
             String password = passwordInput.getText().toString();
-
             login(username, password);
         });
-
-
     }
 
     /* Function to login */
@@ -50,7 +46,6 @@ public class LoginActivity extends AppCompatActivity {
                 // TODO : display error message
                 e.printStackTrace();
             }
-            ModelManager.stayloggedin(ModelManager.getLoggedAuthType(), ModelManager.getLoggedApiKey(), ModelManager.getLoggedIdUSer());
         }).start();
     }
 

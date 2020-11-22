@@ -28,23 +28,18 @@ public class MainActivity extends AppCompatActivity
 {
     private List<Article> articleList = null;
 
-    private String authtype;
-    private String apikey;
-    private String idUSer;
-    private List<String> dataList = new ArrayList<>();
-    private String[] data;
-
-    private Activity context;
-
     @Override
     protected void onCreate(Bundle savedInstanceState){
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        initProperties();
-        //login("us_1_3", "1331");
+        /* If the RESTConnection is already configured, skip it */
+        if(!ModelManager.isConfigured()){
+            initProperties();
+        }
 
+        /* Button to go to the login activity */
         ((Button)findViewById(R.id.btn_goToLogin)).setOnClickListener(v -> {
             Intent goToLogin = new Intent(this, LoginActivity.class);
             this.startActivity(goToLogin);
@@ -57,46 +52,21 @@ public class MainActivity extends AppCompatActivity
         downloadArticles();
     }
 
-
-
-
     /* Function to retrieve articles from the API */
     private void downloadArticles() {
         new Thread( () -> {
             try{
                 this.articleList = ModelManager.getArticles();
-                Log.e("Articles","Articles retrieved");
             }
             catch (ServerCommunicationError e){
                 e.printStackTrace();
             }
-
             this.runOnUiThread( () -> {
                 ListView listView = this.findViewById(R.id.lst_itemList);
                 ArticleAdapter articleAdapter = new ArticleAdapter(this);
                 articleAdapter.addArticles(this.articleList);
                 listView.setAdapter(articleAdapter);
             });
-        }).start();
-    }
-
-    /* Function to login */
-    private void login(String username, String password) {
-        new Thread ( () ->{
-            try {
-                ModelManager.login(username, password);
-
-            }
-            catch (AuthenticationError e){
-                e.printStackTrace();
-            }
-            this.authtype = ModelManager.getLoggedAuthType();
-            this.apikey = ModelManager.getLoggedApiKey();
-            this.idUSer = ModelManager.getLoggedIdUSer();
-
-            ModelManager.stayloggedin(this.idUSer,this.apikey,this.authtype);
-
-            downloadArticles();
         }).start();
     }
 

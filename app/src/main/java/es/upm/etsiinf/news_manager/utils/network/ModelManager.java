@@ -1,5 +1,6 @@
 package es.upm.etsiinf.news_manager.utils.network;
 
+import android.util.Log;
 import android.widget.ListView;
 
 import java.io.IOException;
@@ -23,6 +24,8 @@ import static es.upm.etsiinf.news_manager.utils.network.ServiceCallUtils.parseHt
 
 public class ModelManager {
     private static RESTConnection rc = null;
+
+    public static boolean isConfigured(){ return rc!=null; }
 
     public static boolean isConnected(){
         return rc.idUser!=null;
@@ -96,6 +99,7 @@ public class ModelManager {
                 rc.authType = userJsonObject.get("Authorization").toString();
                 rc.apikey = userJsonObject.get("apikey").toString();
                 rc.isAdministrator = userJsonObject.containsKey("administrator");
+                Log.e("BLABLA", ">>> " + rc.idUser + " || " + rc.apikey );
             }else{
                 Logger.log(Logger.ERROR,connection.getResponseMessage());
 
