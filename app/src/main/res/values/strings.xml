@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">News-Manager</string>
+    <string name="app_name">NSC News</string>
     <string name="login">Login</string>
     <string name="enter_your_username">Enter your username</string>
     <string name="enter_your_password">Enter your password</string>
@@ -14,4 +14,6 @@
     <string name="replace_image">Replace image</string>
     <string name="article_image">Article Image</string>
     <string name="button">Button</string>
+    <string name="blue_one">#04284A</string>
+    <string name="sign_in">Sign In</string>
 </resources>

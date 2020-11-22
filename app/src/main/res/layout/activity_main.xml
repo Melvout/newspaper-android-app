@@ -4,28 +4,40 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F4F4F4"
+    android:background="#efefef"
     tools:context=".MainActivity">
 
+    <Button
+        android:id="@+id/btn_goToLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:backgroundTint="@color/blue_two"
+        android:insetTop="6dp"
+        android:text="@string/sign_in"
+        app:layout_constraintVertical_bias="0.98"
+        app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         tools:layout_editor_absoluteX="202dp"
         tools:layout_editor_absoluteY="129dp">
 
-        <Button
-            android:id="@+id/btn_goToLogin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Button" />
-
         <ListView
             android:id="@+id/lst_itemList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:divider="@null"
-            android:dividerHeight="0dp" />
+            android:dividerHeight="0dp" >
+
+
+        </ListView>
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

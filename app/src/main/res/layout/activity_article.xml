@@ -13,7 +13,7 @@
         android:clickable="true"
         android:contentDescription="@string/replace_image"
         android:focusable="true"
-        app:backgroundTint="@color/teal_200"
+        app:backgroundTint="@color/blue_two"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.92"
@@ -40,7 +40,7 @@
                 android:layout_height="240dp"
                 android:layout_marginBottom="24dp"
                 android:contentDescription="@string/article_image"
-                android:src="@color/purple_200" />
+                android:src="@color/blue_two" />
 
             <LinearLayout
                 style="@style/Base.TextAppearance.AppCompat.ArticleTitle"
