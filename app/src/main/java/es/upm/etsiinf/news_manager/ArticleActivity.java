@@ -1,5 +1,6 @@
 package es.upm.etsiinf.news_manager;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,9 +15,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 
 import es.upm.etsiinf.news_manager.model.Article;
 import es.upm.etsiinf.news_manager.utils.network.ModelManager;
@@ -24,6 +30,7 @@ import es.upm.etsiinf.news_manager.utils.network.exceptions.ServerCommunicationE
 
 public class ArticleActivity extends AppCompatActivity{
 
+    private static final int REQUEST_CODE_OPEN_IMAGE = 1;
     private Article articleToDisplay;
 
     @Override
@@ -42,6 +49,13 @@ public class ArticleActivity extends AppCompatActivity{
         if(!ModelManager.isConnected()){
             addImageButton.setVisibility(FloatingActionButton.INVISIBLE);
         }
+        addImageButton.setOnClickListener( v ->{
+            Intent intent2 = new Intent();
+            intent2.setType("image/*");
+            intent2.setAction(Intent.ACTION_GET_CONTENT);
+            intent2.addCategory(intent2.CATEGORY_OPENABLE);
+            startActivityForResult(intent2, REQUEST_CODE_OPEN_IMAGE);
+        });
     }
 
     /* Method to retrieve all the information related to a specific article from the API */
@@ -94,6 +108,29 @@ public class ArticleActivity extends AppCompatActivity{
                 error.printStackTrace();
             }
         }).start();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if( requestCode == REQUEST_CODE_OPEN_IMAGE && resultCode == Activity.RESULT_OK) {
+            InputStream stream = null;
+            try {
+                stream = getContentResolver().openInputStream(data.getData());
+                Bitmap bitmap = BitmapFactory.decodeStream(stream);
+                ImageView imageView = findViewById(R.id.img_article);
+                imageView.setImageBitmap(bitmap);
+            }
+            catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            finally {
+                if( stream != null) {
+                    try{stream.close();}
+                    catch (IOException e){e.printStackTrace();}
+                }
+            }
+        }
     }
 
     @Override
