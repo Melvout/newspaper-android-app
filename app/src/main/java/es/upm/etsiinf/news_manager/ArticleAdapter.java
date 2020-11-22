@@ -19,6 +19,8 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.cardview.widget.CardView;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -88,8 +90,8 @@ public class ArticleAdapter extends BaseAdapter {
             error.printStackTrace();
         }
 
-        Button viewArticleButton = convertView.findViewById(R.id.btn_viewArticle);
-        viewArticleButton.setOnClickListener(v -> viewArticle(article.getId()));
+        CardView viewArticle = convertView.findViewById(R.id.card_article);
+        viewArticle.setOnClickListener(v -> viewArticle(article.getId()));
 
         return convertView;
     }

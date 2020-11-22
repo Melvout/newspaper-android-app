@@ -6,16 +6,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/card_article"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
         android:padding="16dp"
+        app:cardBackgroundColor="#FFFFFF"
         app:cardCornerRadius="4dp"
         app:cardElevation="2dp"
         app:cardUseCompatPadding="true"
-        app:contentPaddingTop="16dp">
+        app:contentPaddingTop="16dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:clickable="true" >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -32,8 +36,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:paddingTop="16dp"
                 android:paddingStart="16dp"
+                android:paddingTop="16dp"
                 android:paddingEnd="16dp">
 
                 <TextView
@@ -43,19 +47,13 @@
 
                 <TextView
                     android:id="@+id/card_abstract"
-                    android:text="@string/article_abstract"
-                    style="@style/style_abstract" />
+                    style="@style/style_abstract"
+                    android:text="@string/article_abstract" />
 
                 <TextView
                     android:id="@+id/card_category"
-                    android:text="@string/category"
-                    style="@style/style_category" />
-
-                <Button
-                    android:id="@+id/btn_viewArticle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/button" />
+                    style="@style/style_category"
+                    android:text="@string/category" />
 
             </LinearLayout>
 
