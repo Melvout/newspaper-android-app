@@ -13,4 +13,5 @@
     <string name="date">Date</string>
     <string name="replace_image">Replace image</string>
     <string name="article_image">Article Image</string>
+    <string name="button">Button</string>
 </resources>

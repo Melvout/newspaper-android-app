@@ -75,7 +75,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:alpha="0.8"
-                    android:lineSpacingExtra="24sp"
+                    android:lineSpacingExtra="6sp"
                     android:paddingBottom="24dp"
                     android:text="@string/article_body"
                     android:textAlignment="viewStart"

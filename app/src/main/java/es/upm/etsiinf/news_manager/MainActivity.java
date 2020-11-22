@@ -43,30 +43,11 @@ public class MainActivity extends AppCompatActivity
 
         initProperties();
         login("us_1_3", "1331");
-        downloadArticles();
 
-        /* It will be used to navigate to the ArticleActivity - it's just a test */
-        Button btn_nextActivity = findViewById(R.id.btn_testButton);
-        btn_nextActivity.setOnClickListener(v ->
-        {
-            viewArticle(0);
-        });
-/*
-        ArrayList<Article> articleArrayList = new ArrayList<Article>();
-        ArticleAdapter adapter = new ArticleAdapter(context);
-        ListView listView = context.findViewById(R.id.lst_itemList);
-
-        adapter.addArticles(articleArrayList);
-        listView.setAdapter(adapter);*/
 
     }
 
-    private void viewArticle(int articleId) {
 
-        Intent i_nextActivity = new Intent(getApplicationContext(), ArticleActivity.class);
-        i_nextActivity.putExtra("idArticle", 113); // 113 should be replaced later by : this.articleList.get(articleId).getId()
-        MainActivity.this.startActivity(i_nextActivity);
-    }
 
     /* Function to retrieve articles from the API */
     private void downloadArticles() {
@@ -79,6 +60,12 @@ public class MainActivity extends AppCompatActivity
                 e.printStackTrace();
             }
 
+            this.runOnUiThread( () -> {
+                ListView listView = this.findViewById(R.id.lst_itemList);
+                ArticleAdapter articleAdapter = new ArticleAdapter(this);
+                articleAdapter.addArticles(this.articleList);
+                listView.setAdapter(articleAdapter);
+            });
         }).start();
     }
 
@@ -87,6 +74,7 @@ public class MainActivity extends AppCompatActivity
         new Thread ( () ->{
             try {
                 ModelManager.login(username, password);
+
             }
             catch (AuthenticationError e){
                 e.printStackTrace();
@@ -96,6 +84,8 @@ public class MainActivity extends AppCompatActivity
             this.idUSer = ModelManager.getLoggedIdUSer();
 
             ModelManager.stayloggedin(this.idUSer,this.apikey,this.authtype);
+
+            downloadArticles();
         }).start();
 
     }

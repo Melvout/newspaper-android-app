@@ -51,6 +51,12 @@
                     android:text="@string/category"
                     style="@style/style_category" />
 
+                <Button
+                    android:id="@+id/btn_viewArticle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/button" />
+
             </LinearLayout>
 
 

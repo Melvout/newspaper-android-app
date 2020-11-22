@@ -1,10 +1,20 @@
 package es.upm.etsiinf.news_manager;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Build;
+import android.text.Html;
+import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -13,13 +23,14 @@ import java.util.LinkedList;
 import java.util.List;
 
 import es.upm.etsiinf.news_manager.model.Article;
+import es.upm.etsiinf.news_manager.utils.network.exceptions.ServerCommunicationError;
 
 public class ArticleAdapter extends BaseAdapter {
 
     private List<Article> articleData = new LinkedList<>();
-    private Context context;
+    private Activity context;
 
-    public ArticleAdapter(Context context) {
+    public ArticleAdapter(Activity context) {
         this.context = context;
     }
 
@@ -45,21 +56,49 @@ public class ArticleAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View convertView, ViewGroup viewGroup) {
 
+        Article article = articleData.get(i);
+
         LayoutInflater layoutInflater = LayoutInflater.from(context);
 
         if (convertView == null)
             convertView = layoutInflater.inflate(R.layout.card_article, null);
 
         TextView tvCardTitle = convertView.findViewById(R.id.card_title);
-        tvCardTitle.setText(articleData.get(i).getTitleText());
+        tvCardTitle.setText(article.getTitleText());
 
         TextView tvCardAbstract = convertView.findViewById(R.id.card_abstract);
-        tvCardAbstract.setText(articleData.get(i).getAbstractText());
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
+            tvCardAbstract.setText( Html.fromHtml(article.getAbstractText(), Html.FROM_HTML_MODE_COMPACT) );
+        }
+        else{
+            tvCardAbstract.setText(article.getAbstractText());
+        }
 
         TextView tvCardCategory = convertView.findViewById(R.id.card_category);
-        tvCardCategory.setText(articleData.get(i).getCategory());
+        tvCardCategory.setText(article.getCategory());
+
+        ImageView tvCardImage = convertView.findViewById(R.id.card_thumbnail);
+        try {
+            if( article.getImage() != null ){
+                byte[] decodedString = Base64.decode(article.getImage().getImage(), Base64.DEFAULT);
+                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                tvCardImage.setImageBitmap(decodedByte);
+            }
+        } catch (ServerCommunicationError error) {
+            error.printStackTrace();
+        }
+
+        Button viewArticleButton = convertView.findViewById(R.id.btn_viewArticle);
+        viewArticleButton.setOnClickListener(v -> viewArticle(article.getId()));
 
         return convertView;
+    }
+
+    private void viewArticle(int articleId) {
+
+        Intent i_nextActivity = new Intent(context, ArticleActivity.class);
+        i_nextActivity.putExtra("idArticle", articleId); // 113 should be replaced later by : this.articleList.get(articleId).getId()
+        context.startActivity(i_nextActivity);
     }
 
 }
