@@ -8,9 +8,11 @@ import android.os.Bundle;
 import android.text.Html;
 import android.util.Base64;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import es.upm.etsiinf.news_manager.model.Article;
 import es.upm.etsiinf.news_manager.utils.network.ModelManager;
@@ -82,5 +84,14 @@ public class ArticleActivity extends AppCompatActivity{
                 error.printStackTrace();
             }
         }).start();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

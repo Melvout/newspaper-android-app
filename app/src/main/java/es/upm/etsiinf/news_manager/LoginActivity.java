@@ -2,9 +2,11 @@ package es.upm.etsiinf.news_manager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import es.upm.etsiinf.news_manager.utils.network.ModelManager;
@@ -17,6 +19,7 @@ public class LoginActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         EditText usernameInput = findViewById(R.id.textField_name);
@@ -49,5 +52,14 @@ public class LoginActivity extends AppCompatActivity {
             }
             ModelManager.stayloggedin(ModelManager.getLoggedAuthType(), ModelManager.getLoggedApiKey(), ModelManager.getLoggedIdUSer());
         }).start();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
