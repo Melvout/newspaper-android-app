@@ -42,16 +42,20 @@ public class MainActivity extends AppCompatActivity
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         initProperties();
-        downloadArticles();
         //login("us_1_3", "1331");
 
         ((Button)findViewById(R.id.btn_goToLogin)).setOnClickListener(v -> {
             Intent goToLogin = new Intent(this, LoginActivity.class);
             this.startActivity(goToLogin);
         });
-
-       ;
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        downloadArticles();
+    }
+
 
 
 

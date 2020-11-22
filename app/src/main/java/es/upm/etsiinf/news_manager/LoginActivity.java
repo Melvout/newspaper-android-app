@@ -40,7 +40,6 @@ public class LoginActivity extends AppCompatActivity {
         new Thread ( () ->{
             try {
                 ModelManager.login(username, password);
-
                 Intent i_nextActivity = new Intent(this, MainActivity.class);
                 this.startActivity(i_nextActivity);
             }
