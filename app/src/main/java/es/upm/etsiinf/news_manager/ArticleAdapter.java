@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.LinkedList;
@@ -59,6 +60,6 @@ public class ArticleAdapter extends BaseAdapter {
         tvCardCategory.setText(articleData.get(i).getCategory());
 
         return convertView;
-
     }
+
 }

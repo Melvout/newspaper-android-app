@@ -52,6 +52,13 @@ public class MainActivity extends AppCompatActivity
             viewArticle(0);
         });
 
+        ArrayList<Article> articleArrayList = new ArrayList<Article>();
+        ArticleAdapter adapter = new ArticleAdapter(context);
+        ListView listView = context.findViewById(R.id.lst_itemList);
+
+        adapter.addArticles(articleArrayList);
+        listView.setAdapter(adapter);
+
     }
 
     private void viewArticle(int articleId) {
