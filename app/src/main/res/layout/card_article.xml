@@ -8,15 +8,14 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
+        android:padding="16dp"
         app:cardCornerRadius="4dp"
         app:cardElevation="2dp"
         app:cardUseCompatPadding="true"
-        app:contentPaddingTop="16dp"
-        app:contentPaddingBottom="16dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp" >
+        app:contentPaddingTop="16dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -29,23 +28,32 @@
                 android:layout_height="wrap_content"
                 tools:srcCompat="@tools:sample/avatars" />
 
-            <TextView
-                android:id="@+id/card_title"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingTop="16dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp">
 
-            <TextView
-                android:id="@+id/card_abstract"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="TextView" />
+                <TextView
+                    android:id="@+id/card_title"
+                    style="@style/style_title"
+                    android:text="@string/article_title" />
 
-            <TextView
-                android:id="@+id/card_category"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="TextView" />
+                <TextView
+                    android:id="@+id/card_abstract"
+                    android:text="@string/article_abstract"
+                    style="@style/style_abstract" />
+
+                <TextView
+                    android:id="@+id/card_category"
+                    android:text="@string/category"
+                    style="@style/style_category" />
+
+            </LinearLayout>
+
+
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
