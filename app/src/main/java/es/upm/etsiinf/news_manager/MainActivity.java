@@ -40,7 +40,9 @@ public class MainActivity extends AppCompatActivity
         }
 
         /* Button to go to the login activity */
-        ((Button)findViewById(R.id.btn_goToLogin)).setOnClickListener(v -> {
+        Button goToLoginButton = findViewById(R.id.btn_goToLogin);
+        if(ModelManager.isConnected()){ goToLoginButton.setVisibility(Button.INVISIBLE);} // Hide the button if user already logged.
+        goToLoginButton.setOnClickListener(v -> {
             Intent goToLogin = new Intent(this, LoginActivity.class);
             this.startActivity(goToLogin);
         });
