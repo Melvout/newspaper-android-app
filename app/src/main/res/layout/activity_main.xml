@@ -13,6 +13,12 @@
         tools:layout_editor_absoluteX="202dp"
         tools:layout_editor_absoluteY="129dp">
 
+        <Button
+            android:id="@+id/btn_goToLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Button" />
+
         <ListView
             android:id="@+id/lst_itemList"
             android:layout_width="match_parent"

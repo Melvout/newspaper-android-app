@@ -42,9 +42,15 @@ public class MainActivity extends AppCompatActivity
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         initProperties();
-        login("us_1_3", "1331");
+        downloadArticles();
+        //login("us_1_3", "1331");
 
+        ((Button)findViewById(R.id.btn_goToLogin)).setOnClickListener(v -> {
+            Intent goToLogin = new Intent(this, LoginActivity.class);
+            this.startActivity(goToLogin);
+        });
 
+       ;
     }
 
 
@@ -87,7 +93,6 @@ public class MainActivity extends AppCompatActivity
 
             downloadArticles();
         }).start();
-
     }
 
     /* Function to init properties of the REST app */
