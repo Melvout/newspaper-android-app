@@ -27,12 +27,13 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import es.upm.etsiinf.news_manager.model.Article;
+import es.upm.etsiinf.news_manager.utils.SerializationUtils;
 import es.upm.etsiinf.news_manager.utils.network.ModelManager;
 import es.upm.etsiinf.news_manager.utils.network.exceptions.ServerCommunicationError;
 
 public class ArticleActivity extends AppCompatActivity{
 
-    private static final int REQUEST_CODE_OPEN_IMAGE = 1;
+    private static final int REQUEST_CODE_OPEN_IMAGE_INTERNAL_STORAGE = 1;
     private static final int REQUEST_CODE_TAKE_PICTURE = 2;
     private Article articleToDisplay;
     private int idArticle;
@@ -56,7 +57,8 @@ public class ArticleActivity extends AppCompatActivity{
 
         addImageButton.setOnClickListener( v ->{
 
-            takePicture();
+            //takePicture();
+            uploadPictureFromInternalStorage();
         });
     }
 
@@ -113,38 +115,27 @@ public class ArticleActivity extends AppCompatActivity{
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data){
         super.onActivityResult(requestCode, resultCode, data);
-        if( requestCode == REQUEST_CODE_OPEN_IMAGE && resultCode == Activity.RESULT_OK) {
+        if( requestCode == REQUEST_CODE_OPEN_IMAGE_INTERNAL_STORAGE && resultCode == Activity.RESULT_OK){
             InputStream stream = null;
-            try {
-                stream = getContentResolver().openInputStream(data.getData());
-                Bitmap bitmap = BitmapFactory.decodeStream(stream);
-                //ImageView imageView = findViewById(R.id.img_article);
-                //imageView.setImageBitmap(bitmap);
+            try{
+                Bitmap bitmap = BitmapFactory.decodeStream( getContentResolver().openInputStream(data.getData()) ); // Retrieving data from result
+                String imageBase64 = SerializationUtils.imgToBase64String(bitmap); // Change format from bitmap to base64 String
+                this.articleToDisplay.addImage(imageBase64,"Article image"); // Overwriting the current image with the newest.
 
-                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-                byte[] byteArray = byteArrayOutputStream .toByteArray();
-
-                String imageBase64 = Base64.encodeToString(byteArray, Base64.DEFAULT);
-
-                this.articleToDisplay.addImage(imageBase64,"Article image");
+                /* New thread to upload the article to the API */
                 new Thread( () ->{
-                    try {
+                    try{
                         ModelManager.saveArticle(this.articleToDisplay);
-                        getArticle(idArticle);
-                    } catch (ServerCommunicationError error) {
-                        error.printStackTrace();
                     }
+                    catch (ServerCommunicationError error) { error.printStackTrace(); }
                 }).start();
-
-
             }
             catch (FileNotFoundException | ServerCommunicationError e) {
                 e.printStackTrace();
             }
-            finally {
+            finally{
                 if( stream != null) {
                     try{stream.close();}
                     catch (IOException e){e.printStackTrace();}
@@ -163,7 +154,7 @@ public class ArticleActivity extends AppCompatActivity{
         uploadPictureIntent.setType("image/*");
         uploadPictureIntent.setAction(Intent.ACTION_GET_CONTENT);
         uploadPictureIntent.addCategory(uploadPictureIntent.CATEGORY_OPENABLE);
-        startActivityForResult(uploadPictureIntent, REQUEST_CODE_OPEN_IMAGE);
+        startActivityForResult(uploadPictureIntent, REQUEST_CODE_OPEN_IMAGE_INTERNAL_STORAGE);
     }
 
     public void takePicture(){
