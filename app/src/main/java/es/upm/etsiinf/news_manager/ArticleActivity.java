@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.Html;
 import android.util.Base64;
 import android.util.Log;
@@ -20,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,7 +33,9 @@ import es.upm.etsiinf.news_manager.utils.network.exceptions.ServerCommunicationE
 public class ArticleActivity extends AppCompatActivity{
 
     private static final int REQUEST_CODE_OPEN_IMAGE = 1;
+    private static final int REQUEST_CODE_TAKE_PICTURE = 2;
     private Article articleToDisplay;
+    private int idArticle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +45,7 @@ public class ArticleActivity extends AppCompatActivity{
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         Intent intent = getIntent();
-        int idArticle = intent.getIntExtra("idArticle",0);
+        this.idArticle = intent.getIntExtra("idArticle",0);
         getArticle(idArticle);
 
 
@@ -49,12 +53,10 @@ public class ArticleActivity extends AppCompatActivity{
         if(!ModelManager.isConnected()){
             addImageButton.setVisibility(FloatingActionButton.INVISIBLE);
         }
+
         addImageButton.setOnClickListener( v ->{
-            Intent intent2 = new Intent();
-            intent2.setType("image/*");
-            intent2.setAction(Intent.ACTION_GET_CONTENT);
-            intent2.addCategory(intent2.CATEGORY_OPENABLE);
-            startActivityForResult(intent2, REQUEST_CODE_OPEN_IMAGE);
+
+            takePicture();
         });
     }
 
@@ -118,10 +120,28 @@ public class ArticleActivity extends AppCompatActivity{
             try {
                 stream = getContentResolver().openInputStream(data.getData());
                 Bitmap bitmap = BitmapFactory.decodeStream(stream);
-                ImageView imageView = findViewById(R.id.img_article);
-                imageView.setImageBitmap(bitmap);
+                //ImageView imageView = findViewById(R.id.img_article);
+                //imageView.setImageBitmap(bitmap);
+
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+                byte[] byteArray = byteArrayOutputStream .toByteArray();
+
+                String imageBase64 = Base64.encodeToString(byteArray, Base64.DEFAULT);
+
+                this.articleToDisplay.addImage(imageBase64,"Article image");
+                new Thread( () ->{
+                    try {
+                        ModelManager.saveArticle(this.articleToDisplay);
+                        getArticle(idArticle);
+                    } catch (ServerCommunicationError error) {
+                        error.printStackTrace();
+                    }
+                }).start();
+
+
             }
-            catch (FileNotFoundException e) {
+            catch (FileNotFoundException | ServerCommunicationError e) {
                 e.printStackTrace();
             }
             finally {
@@ -131,7 +151,27 @@ public class ArticleActivity extends AppCompatActivity{
                 }
             }
         }
+
+        if( requestCode == REQUEST_CODE_TAKE_PICTURE && resultCode == Activity.RESULT_OK){
+            Bitmap pictureTaken = (Bitmap) data.getExtras().get("data");
+            ((ImageView)findViewById(R.id.img_article)).setImageBitmap(pictureTaken);
+        }
     }
+
+    public void uploadPictureFromInternalStorage(){
+        Intent uploadPictureIntent = new Intent();
+        uploadPictureIntent.setType("image/*");
+        uploadPictureIntent.setAction(Intent.ACTION_GET_CONTENT);
+        uploadPictureIntent.addCategory(uploadPictureIntent.CATEGORY_OPENABLE);
+        startActivityForResult(uploadPictureIntent, REQUEST_CODE_OPEN_IMAGE);
+    }
+
+    public void takePicture(){
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(cameraIntent, REQUEST_CODE_TAKE_PICTURE);
+    }
+
+
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -141,4 +181,6 @@ public class ArticleActivity extends AppCompatActivity{
         }
         return super.onOptionsItemSelected(item);
     }
+
+
 }
