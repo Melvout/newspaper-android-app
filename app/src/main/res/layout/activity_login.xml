@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="24dp"
-            android:text="@string/log_in"
+            android:text="@string/sign_in"
             android:textColor="@color/black"
             android:textSize="36sp"
             android:textStyle="bold" />
@@ -46,6 +46,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/blue_two"
-            android:text="@string/login" />
+            android:text="@string/sign_in" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

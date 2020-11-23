@@ -58,6 +58,16 @@ public class ArticleActivity extends AppCompatActivity{
 
             takePicture();
         });
+
+        FloatingActionButton uploadImageButton = findViewById(R.id.btn_add_img_file);
+        if (!ModelManager.isConnected()) {
+            uploadImageButton.setVisibility(FloatingActionButton.INVISIBLE);
+        }
+
+        uploadImageButton.setOnClickListener(v -> {
+            uploadPictureFromInternalStorage();
+        });
+
     }
 
     /* Method to retrieve all the information related to a specific article from the API */
