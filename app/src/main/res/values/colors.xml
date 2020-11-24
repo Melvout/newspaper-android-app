@@ -10,4 +10,6 @@
     <color name="blue_one">#04284A</color>
     <color name="blue_two">#1A67E3</color>
     <color name="badge_dark">#343a40</color>
+    <color name="danger_bg">#f8d7da</color>
+    <color name="danger_text">#721c24</color>
 </resources>
