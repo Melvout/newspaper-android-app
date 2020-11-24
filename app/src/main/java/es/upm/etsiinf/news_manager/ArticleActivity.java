@@ -11,7 +11,6 @@ import android.text.Html;
 import android.util.Base64;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,7 +20,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -50,15 +48,13 @@ public class ArticleActivity extends AppCompatActivity{
         getArticle(idArticle);
 
 
-        FloatingActionButton addImageButton = findViewById(R.id.btn_add_img);
+        FloatingActionButton takePictureButton = findViewById(R.id.btn_take_picture);
         if(!ModelManager.isConnected()){
-            addImageButton.setVisibility(FloatingActionButton.INVISIBLE);
+            takePictureButton.setVisibility(FloatingActionButton.INVISIBLE);
         }
 
-        addImageButton.setOnClickListener( v ->{
-
-            //takePicture();
-            uploadPictureFromInternalStorage();
+        takePictureButton.setOnClickListener( v ->{
+            takePicture();
         });
 
         FloatingActionButton uploadImageButton = findViewById(R.id.btn_add_img_file);
@@ -68,6 +64,7 @@ public class ArticleActivity extends AppCompatActivity{
 
         uploadImageButton.setOnClickListener(v -> {
             uploadPictureFromInternalStorage();
+
         });
 
     }
@@ -90,15 +87,7 @@ public class ArticleActivity extends AppCompatActivity{
                     TextView textViewUserId = findViewById(R.id.article_user_id);
                     TextView textViewDate = findViewById(R.id.article_date);
 
-                    try {
-                        if( this.articleToDisplay.getImage() != null ){
-                            byte[] decodedString = Base64.decode(this.articleToDisplay.getImage().getImage(), Base64.DEFAULT);
-                            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-                            imageViewArticle.setImageBitmap(decodedByte);
-                        }
-                    } catch (ServerCommunicationError error) {
-                        error.printStackTrace();
-                    }
+                    updateImageArticle(imageViewArticle);
 
                     textViewTitle.setText(this.articleToDisplay.getTitleText());
                     textViewSubtitle.setText(this.articleToDisplay.getSubtitleText());
@@ -127,7 +116,10 @@ public class ArticleActivity extends AppCompatActivity{
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data){
         super.onActivityResult(requestCode, resultCode, data);
+
+        /* Activity result after uploading a picture from internal storage */
         if( requestCode == REQUEST_CODE_OPEN_IMAGE_INTERNAL_STORAGE && resultCode == Activity.RESULT_OK){
+
             InputStream stream = null;
             try{
                 Bitmap bitmap = BitmapFactory.decodeStream( getContentResolver().openInputStream(data.getData()) ); // Retrieving data from result
@@ -138,6 +130,8 @@ public class ArticleActivity extends AppCompatActivity{
                 new Thread( () ->{
                     try{
                         ModelManager.saveArticle(this.articleToDisplay);
+                        ImageView imageViewArticle = findViewById(R.id.img_article);
+                        updateImageArticle(imageViewArticle);
                     }
                     catch (ServerCommunicationError error) { error.printStackTrace(); }
                 }).start();
@@ -153,9 +147,28 @@ public class ArticleActivity extends AppCompatActivity{
             }
         }
 
+        /* Activity result after taking a picture with the camera */
         if( requestCode == REQUEST_CODE_TAKE_PICTURE && resultCode == Activity.RESULT_OK){
+
             Bitmap pictureTaken = (Bitmap) data.getExtras().get("data");
-            ((ImageView)findViewById(R.id.img_article)).setImageBitmap(pictureTaken);
+            String imageBase64 = SerializationUtils.imgToBase64String(pictureTaken); // Change format from bitmap to base64 String
+            try{
+                this.articleToDisplay.addImage(imageBase64,"Article image"); // Overwriting the current image with the newest.
+            }
+            catch (ServerCommunicationError error){
+                error.printStackTrace();
+            }
+
+            /* New thread to upload the article to the API */
+            new Thread( () ->{
+                try{
+                    ModelManager.saveArticle(this.articleToDisplay);
+                    ImageView imageViewArticle = findViewById(R.id.img_article);
+                    updateImageArticle(imageViewArticle);
+                }
+                catch (ServerCommunicationError error) { error.printStackTrace(); }
+            }).start();
+
         }
     }
 
@@ -172,7 +185,18 @@ public class ArticleActivity extends AppCompatActivity{
         startActivityForResult(cameraIntent, REQUEST_CODE_TAKE_PICTURE);
     }
 
+    public void updateImageArticle(ImageView imageViewArticle){
+        try {
+            if( this.articleToDisplay.getImage() != null ){
+                byte[] decodedString = Base64.decode(this.articleToDisplay.getImage().getImage(), Base64.DEFAULT);
+                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                imageViewArticle.setImageBitmap(decodedByte);
+            }
+        } catch (ServerCommunicationError error) {
+            error.printStackTrace();
+        }
 
+    }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -182,6 +206,7 @@ public class ArticleActivity extends AppCompatActivity{
         }
         return super.onOptionsItemSelected(item);
     }
+
 
 
 }

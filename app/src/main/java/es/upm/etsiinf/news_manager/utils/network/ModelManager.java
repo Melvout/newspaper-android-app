@@ -304,15 +304,17 @@ public class ModelManager {
             connection.setRequestProperty("charset", "utf-8");
             connection.setUseCaches (false);
 
-            ServiceCallUtils.writeJSONParams(connection, a.toJSON());
+            JSONObject json = a.toJSON();
+            ServiceCallUtils.writeJSONParams(connection, json);
 
             int HttpResult =connection.getResponseCode();
             if(HttpResult ==HttpURLConnection.HTTP_OK){
                 String res = parseHttpStreamResult(connection);
                 // get id from status ok when saved
-                int id = ServiceCallUtils.readRestResultFromInsert(res);
-                Logger.log(Logger.INFO, "Object inserted, returned id:" + id);
-                return id;
+                //int id = ServiceCallUtils.readRestResultFromInsert(res);
+                //Logger.log(Logger.INFO, "Object inserted, returned id:" + id);
+                //return id;
+                return 0;
             }else{
                 throw new ServerCommunicationError(connection.getResponseMessage());
             }
