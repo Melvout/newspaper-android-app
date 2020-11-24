@@ -48,9 +48,15 @@ public class MainActivity extends AppCompatActivity
         });
 
         Button signOutButton = findViewById(R.id.btn_sign_out);
-        if (!ModelManager.isConnected()) {
+        if (!ModelManager.isConnected()){
             signOutButton.setVisibility(Button.INVISIBLE);
         }
+        signOutButton.setOnClickListener( v -> {
+            ModelManager.logout();
+            signOutButton.setVisibility(Button.INVISIBLE);
+            goToLoginButton.setVisibility(Button.VISIBLE);
+            downloadArticles();
+        });
     }
 
     @Override

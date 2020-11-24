@@ -168,7 +168,6 @@ public class ArticleActivity extends AppCompatActivity{
                 }
                 catch (ServerCommunicationError error) { error.printStackTrace(); }
             }).start();
-
         }
     }
 
