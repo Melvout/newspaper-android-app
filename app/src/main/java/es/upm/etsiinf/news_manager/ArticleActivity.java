@@ -74,7 +74,7 @@ public class ArticleActivity extends AppCompatActivity{
         new Thread( () ->{
             try{
                 this.articleToDisplay = ModelManager.getArticle(idArticle);
-                Log.e("TITLE",">>>> " + this.articleToDisplay.getTitleText());
+                Log.e("TITLE",">>>> " + this.articleToDisplay.getId());
 
                 this.runOnUiThread( () ->{
 
@@ -87,7 +87,7 @@ public class ArticleActivity extends AppCompatActivity{
                     TextView textViewUserId = findViewById(R.id.article_user_id);
                     TextView textViewDate = findViewById(R.id.article_date);
 
-                    updateImageArticle(imageViewArticle);
+                    updateImageViewArticle(imageViewArticle);
 
                     textViewTitle.setText(this.articleToDisplay.getTitleText());
                     textViewSubtitle.setText(this.articleToDisplay.getSubtitleText());
@@ -121,22 +121,13 @@ public class ArticleActivity extends AppCompatActivity{
         if( requestCode == REQUEST_CODE_OPEN_IMAGE_INTERNAL_STORAGE && resultCode == Activity.RESULT_OK){
 
             InputStream stream = null;
-            try{
-                Bitmap bitmap = BitmapFactory.decodeStream( getContentResolver().openInputStream(data.getData()) ); // Retrieving data from result
-                String imageBase64 = SerializationUtils.imgToBase64String(bitmap); // Change format from bitmap to base64 String
-                this.articleToDisplay.addImage(imageBase64,"Article image"); // Overwriting the current image with the newest.
+            Bitmap imageUploadedFromInternalStorage = null;
 
-                /* New thread to upload the article to the API */
-                new Thread( () ->{
-                    try{
-                        ModelManager.saveArticle(this.articleToDisplay);
-                        ImageView imageViewArticle = findViewById(R.id.img_article);
-                        updateImageArticle(imageViewArticle);
-                    }
-                    catch (ServerCommunicationError error) { error.printStackTrace(); }
-                }).start();
+            try{
+                imageUploadedFromInternalStorage = BitmapFactory.decodeStream( getContentResolver().openInputStream(data.getData()) ); // Retrieving data from result
+                changeArticleImage(imageUploadedFromInternalStorage, "New article image");
             }
-            catch (FileNotFoundException | ServerCommunicationError e) {
+            catch (FileNotFoundException e){
                 e.printStackTrace();
             }
             finally{
@@ -151,25 +142,33 @@ public class ArticleActivity extends AppCompatActivity{
         if( requestCode == REQUEST_CODE_TAKE_PICTURE && resultCode == Activity.RESULT_OK){
 
             Bitmap pictureTaken = (Bitmap) data.getExtras().get("data");
-            String imageBase64 = SerializationUtils.imgToBase64String(pictureTaken); // Change format from bitmap to base64 String
-            try{
-                this.articleToDisplay.addImage(imageBase64,"Article image"); // Overwriting the current image with the newest.
-            }
-            catch (ServerCommunicationError error){
-                error.printStackTrace();
-            }
-
-            /* New thread to upload the article to the API */
-            new Thread( () ->{
-                try{
-                    ModelManager.saveArticle(this.articleToDisplay);
-                    ImageView imageViewArticle = findViewById(R.id.img_article);
-                    updateImageArticle(imageViewArticle);
-                }
-                catch (ServerCommunicationError error) { error.printStackTrace(); }
-            }).start();
-
+            changeArticleImage(pictureTaken, "New article image");
         }
+    }
+
+    public void changeArticleImage(Bitmap newImage, String description){
+
+        String imageBase64 = SerializationUtils.encodeImage(newImage); // Change format from bitmap to base64 String
+        imageBase64 = imageBase64.replace("\n","").replace("\r","");
+
+        try{
+            this.articleToDisplay.addImage(imageBase64, description); // Overwriting the current image with the newest.
+        }
+        catch (ServerCommunicationError error){
+            error.printStackTrace();
+        }
+
+        /* New thread to upload the article to the API */
+        new Thread( () ->{
+            try{
+                ModelManager.saveArticle(this.articleToDisplay);
+                ImageView imageViewArticle = findViewById(R.id.img_article);
+                this.runOnUiThread( () ->{
+                    updateImageViewArticle(imageViewArticle);
+                });
+            }
+            catch (ServerCommunicationError error) { error.printStackTrace(); }
+        }).start();
     }
 
     public void uploadPictureFromInternalStorage(){
@@ -185,7 +184,7 @@ public class ArticleActivity extends AppCompatActivity{
         startActivityForResult(cameraIntent, REQUEST_CODE_TAKE_PICTURE);
     }
 
-    public void updateImageArticle(ImageView imageViewArticle){
+    public void updateImageViewArticle(ImageView imageViewArticle){
         try {
             if( this.articleToDisplay.getImage() != null ){
                 byte[] decodedString = Base64.decode(this.articleToDisplay.getImage().getImage(), Base64.DEFAULT);
