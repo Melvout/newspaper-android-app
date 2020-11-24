@@ -304,8 +304,7 @@ public class ModelManager {
             connection.setRequestProperty("charset", "utf-8");
             connection.setUseCaches (false);
 
-            JSONObject json = a.toJSON();
-            ServiceCallUtils.writeJSONParams(connection, json);
+            ServiceCallUtils.writeJSONParams(connection, a.toJSON());
 
             int HttpResult =connection.getResponseCode();
             if(HttpResult ==HttpURLConnection.HTTP_OK){
