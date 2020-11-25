@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingStart="16dp"
-    android:paddingTop="40dp"
+    android:paddingTop="24dp"
     android:paddingEnd="16dp">
 
     <LinearLayout
@@ -35,11 +35,18 @@
             android:id="@+id/textField_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
             android:ems="10"
+            android:layout_marginBottom="16dp"
             android:inputType="textPassword"
             android:hint="@string/enter_your_password"
             android:importantForAutofill="no" />
+
+        <CheckBox
+            android:id="@+id/checkbox_remember_me"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:text="@string/remember_me" />
 
         <Button
             android:id="@+id/btn_login"

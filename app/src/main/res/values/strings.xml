@@ -17,4 +17,5 @@
     <string name="blue_one">#04284A</string>
     <string name="sign_in">Sign In</string>
     <string name="sign_out">Sign Out</string>
+    <string name="remember_me">Remember me</string>
 </resources>
