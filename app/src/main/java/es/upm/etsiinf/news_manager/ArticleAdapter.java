@@ -25,6 +25,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import es.upm.etsiinf.news_manager.model.Article;
+import es.upm.etsiinf.news_manager.utils.SerializationUtils;
+import es.upm.etsiinf.news_manager.utils.network.ModelManager;
 import es.upm.etsiinf.news_manager.utils.network.exceptions.ServerCommunicationError;
 
 public class ArticleAdapter extends BaseAdapter {
@@ -80,13 +82,14 @@ public class ArticleAdapter extends BaseAdapter {
         tvCardCategory.setText(article.getCategory());
 
         ImageView tvCardImage = convertView.findViewById(R.id.card_thumbnail);
-        try {
-            if( article.getImage() != null ){
-                byte[] decodedString = Base64.decode(article.getImage().getImage(), Base64.DEFAULT);
-                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-                tvCardImage.setImageBitmap(decodedByte);
+        Bitmap bitmapArticle = null;
+        try{
+            if( article.getImage() != null){
+                bitmapArticle = SerializationUtils.base64StringToImg(article.getImage().getImage());
+                tvCardImage.setImageBitmap(bitmapArticle);
             }
-        } catch (ServerCommunicationError error) {
+        }
+        catch (ServerCommunicationError error){
             error.printStackTrace();
         }
 
