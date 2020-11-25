@@ -33,9 +33,7 @@ public class LoginActivity extends AppCompatActivity{
         /* Button to submit the login form */
         Button loginButton = findViewById(R.id.btn_login);
         loginButton.setOnClickListener(v -> {
-            String username = usernameInput.getText().toString();
-            String password = passwordInput.getText().toString();
-            login(username, password);
+            login(usernameInput.getText().toString(), passwordInput.getText().toString());
         });
     }
 
@@ -43,26 +41,33 @@ public class LoginActivity extends AppCompatActivity{
     private void login(String username, String password) {
         new Thread ( () ->{
             try {
-                CheckBox rememberMeCheckbox = findViewById(R.id.checkbox_remember_me);
                 ModelManager.login(username, password);
+
+                CheckBox rememberMeCheckbox = findViewById(R.id.checkbox_remember_me);
                 if( rememberMeCheckbox.isChecked()){
-                    //TODO : save username and password in a file
-                    SharedPreferences rememberPreferences = getApplicationContext().getSharedPreferences(REMEMBER_PREF, MODE_PRIVATE);
-                    SharedPreferences.Editor rememberPreferencesEditor = rememberPreferences.edit();
-                    rememberPreferencesEditor.putString("username", ModelManager.getIdUser());
-                    rememberPreferencesEditor.putString("apiKey", ModelManager.getLoggedApiKey());
-                    Log.e("APIKEY", ModelManager.getLoggedApiKey());
-                    rememberPreferencesEditor.putString("authType", ModelManager.getLoggedAuthType());
-                    rememberPreferencesEditor.commit();
+                    saveUserInformation(rememberMeCheckbox);
                 }
+
                 Intent i_nextActivity = new Intent(this, MainActivity.class);
                 this.startActivity(i_nextActivity);
             }
             catch (AuthenticationError e){
-                // TODO : display error message
+                if(e.getMessage().equals("Unauthorized")){
+                    // TODO : display error message
+                }
                 e.printStackTrace();
             }
         }).start();
+    }
+
+    /* Method to add the user information in shared preferences */
+    public void saveUserInformation(CheckBox rememberMeCheckbox){
+        SharedPreferences rememberPreferences = getApplicationContext().getSharedPreferences(REMEMBER_PREF, MODE_PRIVATE);
+        SharedPreferences.Editor rememberPreferencesEditor = rememberPreferences.edit();
+        rememberPreferencesEditor.putString("username", ModelManager.getIdUser());
+        rememberPreferencesEditor.putString("apiKey", ModelManager.getLoggedApiKey());
+        rememberPreferencesEditor.putString("authType", ModelManager.getLoggedAuthType());
+        rememberPreferencesEditor.commit();
     }
 
     @Override

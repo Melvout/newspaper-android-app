@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -43,6 +44,7 @@ public class MainActivity extends AppCompatActivity
             initProperties();
         }
 
+        /* Retrieve the username, apikey and authtype if the user asked to be remembered */
         SharedPreferences rememberPreferences = getApplicationContext().getSharedPreferences(REMEMBER_PREF, MODE_PRIVATE);
         if(rememberPreferences.getString("apiKey", null) != null){
             String username = rememberPreferences.getString("username", null);
@@ -51,27 +53,20 @@ public class MainActivity extends AppCompatActivity
             ModelManager.stayloggedin(username, apiKey, authType);
         }
 
-
-        /* Button to go to the login activity */
-        Button goToLoginButton = findViewById(R.id.btn_goToLogin);
+        Button goToLoginButton = findViewById(R.id.btn_goToLogin); // Button to go to the login activity
         if(ModelManager.isConnected()){ goToLoginButton.setVisibility(Button.INVISIBLE);} // Hide the button if user already logged.
+        /* Go to the login activity when login button pressed */
         goToLoginButton.setOnClickListener(v -> {
             Intent goToLogin = new Intent(this, LoginActivity.class);
             this.startActivity(goToLogin);
         });
 
-        Button signOutButton = findViewById(R.id.btn_sign_out);
+        Button signOutButton = findViewById(R.id.btn_sign_out); // Button to sign out
         if (!ModelManager.isConnected()){
-            signOutButton.setVisibility(Button.INVISIBLE);
+            signOutButton.setVisibility(Button.INVISIBLE); // Hide the button if user is not logged.
         }
         signOutButton.setOnClickListener( v -> {
-            ModelManager.logout();
-            SharedPreferences.Editor rememberPreferencesEditor = rememberPreferences.edit();
-            rememberPreferencesEditor.clear();
-            rememberPreferencesEditor.commit();
-            signOutButton.setVisibility(Button.INVISIBLE);
-            goToLoginButton.setVisibility(Button.VISIBLE);
-            downloadArticles();
+            logout(rememberPreferences, signOutButton, goToLoginButton);
         });
 
 
@@ -93,10 +88,12 @@ public class MainActivity extends AppCompatActivity
                 e.printStackTrace();
             }
             this.runOnUiThread( () -> {
+                /* Adding the list view with a custom adapter */
                 ListView listView = this.findViewById(R.id.lst_itemList);
                 ArticleAdapter articleAdapter = new ArticleAdapter(this);
                 articleAdapter.addArticles(this.articleList);
                 listView.setAdapter(articleAdapter);
+                /* ------------------------------------------ */
             });
         }).start();
     }
@@ -107,6 +104,17 @@ public class MainActivity extends AppCompatActivity
         RESTProperties.setProperty(RESTConnection.ATTR_SERVICE_URL, "https://sanger.dia.fi.upm.es/pmd-task/");
         RESTProperties.setProperty(RESTConnection.ATTR_REQUIRE_SELF_CERT, "TRUE");
         ModelManager.configureConnection(RESTProperties);
+    }
+
+    /* Function to log out */
+    public void logout(SharedPreferences rememberPreferences, Button signOutButton, Button goToLoginButton){
+        ModelManager.logout();
+        SharedPreferences.Editor rememberPreferencesEditor = rememberPreferences.edit();
+        rememberPreferencesEditor.clear();
+        rememberPreferencesEditor.commit();
+        signOutButton.setVisibility(Button.INVISIBLE);
+        goToLoginButton.setVisibility(Button.VISIBLE);
+        downloadArticles();
     }
 
 }

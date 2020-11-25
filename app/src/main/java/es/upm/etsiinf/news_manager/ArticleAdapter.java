@@ -61,11 +61,11 @@ public class ArticleAdapter extends BaseAdapter {
     public View getView(int i, View convertView, ViewGroup viewGroup) {
 
         Article article = articleData.get(i);
-
         LayoutInflater layoutInflater = LayoutInflater.from(context);
 
-        if (convertView == null)
+        if (convertView == null){
             convertView = layoutInflater.inflate(R.layout.card_article, null);
+        }
 
         TextView tvCardTitle = convertView.findViewById(R.id.card_title);
         tvCardTitle.setText(article.getTitleText());
@@ -99,7 +99,7 @@ public class ArticleAdapter extends BaseAdapter {
         return convertView;
     }
 
-    private void viewArticle(int articleId) {
+    private void viewArticle(int articleId){
 
         Intent i_nextActivity = new Intent(context, ArticleActivity.class);
         i_nextActivity.putExtra("idArticle", articleId); // 113 should be replaced later by : this.articleList.get(articleId).getId()

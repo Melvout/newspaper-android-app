@@ -44,29 +44,28 @@ public class ArticleActivity extends AppCompatActivity{
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         Intent intent = getIntent();
-        this.idArticle = intent.getIntExtra("idArticle",0);
+        this.idArticle = intent.getIntExtra("idArticle",0); // retrieve the article id to display
         getArticle(idArticle);
 
-
+        /* ------------------ Button to take directly a picture ------------------ */
         FloatingActionButton takePictureButton = findViewById(R.id.btn_take_picture);
         if(!ModelManager.isConnected()){
             takePictureButton.setVisibility(FloatingActionButton.INVISIBLE);
         }
-
         takePictureButton.setOnClickListener( v ->{
             takePicture();
         });
+        /* ----------------------------------------------------------------------- */
 
+        /* ------------------ Button to upload a picture from storage ------------------ */
         FloatingActionButton uploadImageButton = findViewById(R.id.btn_add_img_file);
         if (!ModelManager.isConnected()) {
             uploadImageButton.setVisibility(FloatingActionButton.INVISIBLE);
         }
-
         uploadImageButton.setOnClickListener(v -> {
             uploadPictureFromInternalStorage();
-
         });
-
+        /* ----------------------------------------------------------------------- */
     }
 
     /* Method to retrieve all the information related to a specific article from the API */
@@ -146,11 +145,11 @@ public class ArticleActivity extends AppCompatActivity{
         }
     }
 
-
+    /* Method to change the image of an article */
     public void changeArticleImage(Bitmap newImage, String description){
 
         String imageBase64 = SerializationUtils.encodeImage(newImage); // Change format from bitmap to base64 String
-        imageBase64 = imageBase64.replace("\n","").replace("\r","");
+        imageBase64 = imageBase64.replace("\n","").replace("\r",""); // Remove bad characters from the base64 string
 
         try{
             this.articleToDisplay.addImage(imageBase64, description); // Overwriting the current image with the newest.
@@ -172,6 +171,7 @@ public class ArticleActivity extends AppCompatActivity{
         }).start();
     }
 
+    /* Method to upload a picture from internal storage */
     public void uploadPictureFromInternalStorage(){
         Intent uploadPictureIntent = new Intent();
         uploadPictureIntent.setType("image/*");
@@ -180,33 +180,32 @@ public class ArticleActivity extends AppCompatActivity{
         startActivityForResult(uploadPictureIntent, REQUEST_CODE_OPEN_IMAGE_INTERNAL_STORAGE);
     }
 
+    /* Method to directly take a picture using the camera */
     public void takePicture(){
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(cameraIntent, REQUEST_CODE_TAKE_PICTURE);
     }
 
+    /* Method to update the image view of the article */
     public void updateImageViewArticle(ImageView imageViewArticle){
-        try {
+        try{
             if( this.articleToDisplay.getImage() != null ){
                 byte[] decodedString = Base64.decode(this.articleToDisplay.getImage().getImage(), Base64.DEFAULT);
                 Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
                 imageViewArticle.setImageBitmap(decodedByte);
             }
-        } catch (ServerCommunicationError error) {
+        }
+        catch (ServerCommunicationError error){
             error.printStackTrace();
         }
-
     }
 
     @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item){
+        if (item.getItemId() == android.R.id.home){
             onBackPressed();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
-
-
-
 }
