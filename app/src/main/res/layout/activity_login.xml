@@ -48,6 +48,12 @@
             android:layout_marginBottom="24dp"
             android:text="@string/remember_me" />
 
+        <TextView
+            android:id="@+id/error_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
         <Button
             android:id="@+id/btn_login"
             android:layout_width="match_parent"

@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -53,7 +54,12 @@ public class LoginActivity extends AppCompatActivity{
             }
             catch (AuthenticationError e){
                 if(e.getMessage().equals("Unauthorized")){
-                    // TODO : display error message
+                    runOnUiThread( () ->{
+                        // TODO : display error message
+                        TextView errorMessageView = findViewById(R.id.error_message);
+                        errorMessageView.setVisibility(TextView.VISIBLE);
+                        errorMessageView.setText("Error wrong username or password");
+                    });
                 }
                 e.printStackTrace();
             }
