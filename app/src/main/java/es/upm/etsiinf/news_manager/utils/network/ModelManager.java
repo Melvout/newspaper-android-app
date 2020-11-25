@@ -31,6 +31,10 @@ public class ModelManager {
         return rc.idUser!=null;
     }
 
+    public static void logout(){
+        rc.clear();
+    }
+
     public static String getLoggedIdUSer(){
         return rc.idUser;
     }

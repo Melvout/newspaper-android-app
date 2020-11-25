@@ -46,6 +46,17 @@ public class MainActivity extends AppCompatActivity
             Intent goToLogin = new Intent(this, LoginActivity.class);
             this.startActivity(goToLogin);
         });
+
+        Button signOutButton = findViewById(R.id.btn_sign_out);
+        if (!ModelManager.isConnected()){
+            signOutButton.setVisibility(Button.INVISIBLE);
+        }
+        signOutButton.setOnClickListener( v -> {
+            ModelManager.logout();
+            signOutButton.setVisibility(Button.INVISIBLE);
+            goToLoginButton.setVisibility(Button.VISIBLE);
+            downloadArticles();
+        });
     }
 
     @Override

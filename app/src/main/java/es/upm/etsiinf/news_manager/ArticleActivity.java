@@ -146,6 +146,7 @@ public class ArticleActivity extends AppCompatActivity{
         }
     }
 
+
     public void changeArticleImage(Bitmap newImage, String description){
 
         String imageBase64 = SerializationUtils.encodeImage(newImage); // Change format from bitmap to base64 String
