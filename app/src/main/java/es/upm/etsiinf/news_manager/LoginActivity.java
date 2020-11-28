@@ -58,7 +58,6 @@ public class LoginActivity extends AppCompatActivity{
                         /* display an error message when wrong credentials are provided */
                         TextView errorMessageView = findViewById(R.id.error_message);
                         errorMessageView.setVisibility(TextView.VISIBLE);
-                        errorMessageView.setText("Error wrong username or password");
                     });
                 }
                 e.printStackTrace();

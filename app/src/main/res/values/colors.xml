@@ -12,4 +12,5 @@
     <color name="badge_dark">#343a40</color>
     <color name="danger_bg">#f8d7da</color>
     <color name="danger_text">#721c24</color>
+    <color name="danger_2">#d75d71</color>
 </resources>

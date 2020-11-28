@@ -18,4 +18,5 @@
     <string name="sign_in">Sign In</string>
     <string name="sign_out">Sign Out</string>
     <string name="remember_me">Remember me</string>
+    <string name="error_message">Incorrect username or password. Double check and try again, please.</string>
 </resources>
