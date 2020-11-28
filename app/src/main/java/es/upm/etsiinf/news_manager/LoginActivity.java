@@ -3,7 +3,6 @@ package es.upm.etsiinf.news_manager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.CheckBox;

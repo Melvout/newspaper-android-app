@@ -103,7 +103,6 @@ public class ModelManager {
                 rc.authType = userJsonObject.get("Authorization").toString();
                 rc.apikey = userJsonObject.get("apikey").toString();
                 rc.isAdministrator = userJsonObject.containsKey("administrator");
-                Log.e("BLABLA", ">>> " + rc.idUser + " || " + rc.apikey );
             }else{
                 Logger.log(Logger.ERROR,connection.getResponseMessage());
 
@@ -309,6 +308,7 @@ public class ModelManager {
             connection.setUseCaches (false);
 
             JSONObject json = a.toJSON();
+            String jsonString = json.toJSONString();
             ServiceCallUtils.writeJSONParams(connection, json);
 
             int HttpResult = connection.getResponseCode();

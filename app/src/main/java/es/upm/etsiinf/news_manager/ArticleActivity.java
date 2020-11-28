@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.Html;
 import android.util.Base64;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -73,8 +72,6 @@ public class ArticleActivity extends AppCompatActivity{
         new Thread( () ->{
             try{
                 this.articleToDisplay = ModelManager.getArticle(idArticle);
-                Log.e("TITLE",">>>> " + this.articleToDisplay.getId());
-
                 this.runOnUiThread( () ->{
 
                     ImageView imageViewArticle = findViewById(R.id.img_article);
