@@ -42,7 +42,7 @@ public class LoginActivity extends AppCompatActivity{
         new Thread ( () ->{
             try {
                 ModelManager.login(username, password);
-
+                /* Check to ask if the user wants to stay logged or not */
                 CheckBox rememberMeCheckbox = findViewById(R.id.checkbox_remember_me);
                 if( rememberMeCheckbox.isChecked()){
                     saveUserInformation(rememberMeCheckbox);
